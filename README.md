@@ -13,19 +13,23 @@ Clone this repo and run `mix deps.get` to install dependencies.
 
 ## Usage
 
-To run a specific day, use the following command:
+Compile the elixir code into an executable with:
 
-```bash
-mix run --no-halt -e "Aoc2024.DayX.part1"
+```shell
+mix escript.build
 ```
 
-Replace `X` with the day number you want to run.
+Then, run the app selecting the day and the input file:
+
+```shell
+./aoc_2024 --day=1 day_one_input.txt
+```
 
 ## Testing
 
 To run the tests, use the following command:
 
-```bash
+```shell
 mix test
 ```
 
