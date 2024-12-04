@@ -41,13 +41,13 @@ defmodule Aoc2024.CLI do
     end
   end
 
-  @spec shut_down(non_neg_integer()) :: no_return()
-  defp shut_down(code) do
+  @spec shutdown(non_neg_integer()) :: no_return()
+  defp shutdown(code) do
     System.stop(code)
     Process.sleep(:infinity)
   end
 
-  @spec process(parse_result) :: no_return()
+  @spec process(:help) :: :ok
   defp process(:help) do
     IO.puts("""
     Usage: aoc2024 --day <1-25> <input_file>
@@ -60,28 +60,28 @@ defmodule Aoc2024.CLI do
       aoc2024 --day 1 input.txt
     """)
 
-    shut_down(0)
+    :ok
   end
 
-  @spec process(parse_result) :: no_return()
+  @spec process({:error, :invalid_day}) :: no_return()
   defp process({:error, :invalid_day}) do
     IO.puts("Error: Day must be between 1 and 25")
-    shut_down(1)
+    shutdown(1)
   end
 
-  @spec process(parse_result) :: no_return()
+  @spec process({:error, :missing_input_file}) :: no_return()
   defp process({:error, :missing_input_file}) do
     IO.puts("Error: Input file must be provided")
-    shut_down(1)
+    shutdown(1)
   end
 
-  @spec process(parse_result) :: no_return()
+  @spec process({:error, :input_file_not_found, input_file}) :: no_return()
   defp process({:error, :input_file_not_found, file}) do
     IO.puts("Error: Input file not found: #{file}")
-    shut_down(1)
+    shutdown(1)
   end
 
-  @spec process(parse_result) :: no_return()
+  @spec process({:ok, day, input_file}) :: :ok | no_return()
   defp process({:ok, day, input_file}) do
     IO.puts("Processing day #{day} with input file: #{input_file}")
 
@@ -91,7 +91,7 @@ defmodule Aoc2024.CLI do
     rescue
       UndefinedFunctionError ->
         IO.puts("Error: Solution for day #{day} not implemented yet")
-        shut_down(1)
+        shutdown(1)
     end
   end
 end
