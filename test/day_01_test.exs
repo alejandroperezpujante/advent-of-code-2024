@@ -39,6 +39,21 @@ defmodule Aoc2024.Day01Test do
     end
   end
 
+  describe "similarity/1" do
+    test "calculates the similarity between two lists of numbers" do
+      assert Day01.similarity(@test_input) == 31
+    end
+
+    test "returns 0 for empty input" do
+      assert Day01.similarity("") == 0
+    end
+
+    test "returns 0 for one pair of numbers" do
+      input = "10 20"
+      assert Day01.similarity(input) == 0
+    end
+  end
+
   describe "solve/1" do
     setup do
       # Create a temporary file to test the solve function
@@ -49,12 +64,15 @@ defmodule Aoc2024.Day01Test do
     end
 
     test "outputs the correct result for the input file", %{test_file: test_file} do
-      assert capture_io(fn -> Day01.solve(test_file) end) == "Total distance: 11\n"
+      assert capture_io(fn -> Day01.solve(test_file) end) ==
+               "Total distance: 11\nSimilarity score: 31\n"
     end
 
     test "handles empty files gracefully", %{test_file: test_file} do
       File.write!(test_file, "")
-      assert capture_io(fn -> Day01.solve(test_file) end) == "Total distance: 0\n"
+
+      assert capture_io(fn -> Day01.solve(test_file) end) ==
+               "Total distance: 0\nSimilarity score: 0\n"
     end
   end
 end
